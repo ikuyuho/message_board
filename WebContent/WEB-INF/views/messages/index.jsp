@@ -19,7 +19,7 @@
                 </li>
             </c:forEach>
         </ul>
-        
+
         <div id="pagination">
             （全 ${messages_count} 件）<br />
             <c:forEach var="i" begin="1" end="${((messages_count - 1) / 15) + 1}" step="1">
@@ -33,8 +33,7 @@
                 </c:choose>
             </c:forEach>
         </div>
-        <p><a href="${pageContext.request.contextPath}/new">新規メッセージの投稿</a></p>
-        
+
         <p><a href="${pageContext.request.contextPath}/new">新規メッセージの投稿</a></p>
         <!-- コンテキストパス/newのページへ飛ぶ -->
     </c:param>
