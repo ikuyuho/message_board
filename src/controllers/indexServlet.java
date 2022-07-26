@@ -30,8 +30,16 @@ public class indexServlet extends HttpServlet {
         List<Message> messages = em.createNamedQuery("getAllMessages", Message.class).getResultList();
 
         em.close();
-        
+
+//        問い合わせ結果をリクエストスコープにセットする
         request.setAttribute("messages", messages);
+
+     // フラッシュメッセージがセッションスコープにセットされていたら
+        // リクエストスコープに保存する（セッションスコープからは削除）
+        if(request.getSession().getAttribute("flush") != null) {
+            request.setAttribute("flush", request.getSession().getAttribute("flush"));
+            request.getSession().removeAttribute("flush");
+        }
 
 //        ↓のリクエストスコープ？でデータベースから取得したmessagesをセットし、index.jspを呼び出している
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/messages/index.jsp");
