@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,10 +28,18 @@ public class indexServlet extends HttpServlet {
 
 //        ↓のcreateNameQueryメソッドの引数にMessage.javaのJPQLの名前（getAllMessage)を入れるとデータベースへの問い合わせを実行できる。
         List<Message> messages = em.createNamedQuery("getAllMessages", Message.class).getResultList();
-//        ↓はデータの登録件数を表示するもの。
-        response.getWriter().append(Integer.valueOf(messages.size()).toString());
 
         em.close();
+        
+        request.setAttribute("messages", messages);
+
+//        ↓のリクエストスコープ？でデータベースから取得したmessagesをセットし、index.jspを呼び出している
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/messages/index.jsp");
+        rd.forward(request, response);
+        //        ↓はデータの登録件数を表示するもの。
+//        response.getWriter().append(Integer.valueOf(messages.size()).toString());
+
+//        em.close();
     }
 
 }
